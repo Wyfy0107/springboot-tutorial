@@ -1,5 +1,6 @@
 package com.example.demo.student;
 
+import com.example.demo.exception.ConflictException;
 import com.example.demo.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class StudentService {
                 studentRepository.getByEmail(student.getEmail());
 
         if (existingStudent.isPresent()) {
-            throw new IllegalStateException("Email exist");
+            throw new ConflictException("Email exist");
         }
 
         return studentRepository.save(student);
@@ -39,7 +40,7 @@ public class StudentService {
         boolean existingStudent = studentRepository.existsById(id);
 
         if (!existingStudent) {
-            throw new IllegalStateException("Student does not exist");
+            throw new NotFoundException("Student not found");
         }
 
         Student studentToUpdate = studentRepository.getById(id);
