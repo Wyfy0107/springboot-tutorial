@@ -1,5 +1,6 @@
 package com.example.demo.student;
 
+import com.example.demo.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,8 +53,8 @@ public class StudentService {
     public Student getOne(Long id) {
         Student foundStudent = studentRepository.findById(id).orElse(null);
 
-        if(foundStudent == null){
-            throw new IllegalStateException("Student not found");
+        if (foundStudent == null) {
+            throw new NotFoundException("Student not found");
         }
 
         return foundStudent;

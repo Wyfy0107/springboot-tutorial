@@ -1,6 +1,7 @@
 package com.example.demo.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class StudentController {
     }
 
     @GetMapping(path = "{id}")
-    public Student getOneStudent(@PathVariable Long id) {
-        return studentService.getOne(id);
+    public ResponseEntity<Student> getOneStudent(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.getOne(id));
     }
 
     @PostMapping
