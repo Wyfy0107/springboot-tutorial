@@ -33,4 +33,29 @@ public class StudentService {
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }
+
+    public Student updateStudent(Long id, Student student) {
+        boolean existingStudent = studentRepository.existsById(id);
+
+        if (!existingStudent) {
+            throw new IllegalStateException("Student does not exist");
+        }
+
+        Student studentToUpdate = studentRepository.getById(id);
+        studentToUpdate.setEmail(student.getEmail());
+        studentToUpdate.setDob(student.getDob());
+        studentToUpdate.setName(student.getName());
+
+        return studentRepository.saveAndFlush(studentToUpdate);
+    }
+
+    public Student getOne(Long id) {
+        Student foundStudent = studentRepository.findById(id).orElse(null);
+
+        if(foundStudent == null){
+            throw new IllegalStateException("Student not found");
+        }
+
+        return foundStudent;
+    }
 }
