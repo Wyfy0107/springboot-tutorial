@@ -3,6 +3,7 @@ package com.example.demo.student;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -14,8 +15,12 @@ public class Student {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
+    @NotBlank()
     private String name;
+
+    @NotBlank()
     private String email;
+
     private LocalDate dob;
 
     @Transient
