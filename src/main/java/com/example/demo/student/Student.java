@@ -1,27 +1,37 @@
 package com.example.demo.student;
 
+import com.example.demo.common.BaseEntity;
+import com.example.demo.course.Course;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @Entity
 @Table
-public class Student {
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    private Long id;
+public class Student extends BaseEntity {
 
-    @NotBlank()
+    @NotBlank
     private String name;
 
-    @NotBlank()
+    @NotBlank
     private String email;
 
     private LocalDate dob;
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    @OneToMany
+    private List<Course> courses;
 
     @Transient
     private Integer age;
@@ -33,14 +43,6 @@ public class Student {
         this.name = name;
         this.email = email;
         this.dob = dob;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -73,16 +75,5 @@ public class Student {
 
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", dob=" + dob +
-                ", age=" + age +
-                '}';
     }
 }
