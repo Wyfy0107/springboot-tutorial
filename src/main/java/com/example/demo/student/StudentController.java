@@ -1,6 +1,7 @@
 package com.example.demo.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getStudents() {
-        return studentService.getAll();
+    public ResponseEntity<List<Student>> getStudents() {
+        return ResponseEntity.ok(studentService.getAll());
     }
 
     @GetMapping(path = "{id}")
@@ -28,17 +29,20 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createStudent(@Valid @RequestBody Student student) {
-        return studentService.createStudent(student);
+    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) {
+        return new ResponseEntity<>(studentService.createStudent(student),
+                HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteStudent(@PathVariable Long id) {
+    public ResponseEntity.HeadersBuilder<?> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
+        return ResponseEntity.noContent();
     }
 
     @PutMapping(path = "{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
-        return studentService.updateStudent(id, student);
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id,
+                                                 @RequestBody Student student) {
+        return ResponseEntity.ok(studentService.updateStudent(id, student));
     }
 }
